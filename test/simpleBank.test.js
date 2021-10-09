@@ -14,6 +14,7 @@ var SimpleBank = artifacts.require("./SimpleBank.sol");
 contract("SimpleBank", function (accounts) {
   const [contractOwner, alice] = accounts;
   const deposit = web3.utils.toBN(2);
+  console.log(alice);
 
   beforeEach(async () => {
     instance = await SimpleBank.new();
@@ -31,7 +32,7 @@ contract("SimpleBank", function (accounts) {
       //   will be fixed by setting the correct visibility specifier. See
       //   the following two links
       //   1: https://docs.soliditylang.org/en/v0.8.5/cheatsheet.html?highlight=visibility#function-visibility-specifiers
-      //   2: https://docs.soliditylang.org/en/v0.8.5/contracts.html#getter-functions
+      //   2: htttps://docs.soliditylang.org/en/v0.8.5/contracts.html#getter-functions
       await instance.owner.call(),
       contractOwner,
       "owner is not correct",
@@ -57,11 +58,14 @@ contract("SimpleBank", function (accounts) {
       "only enrolled users should be marked enrolled",
     );
   });
+   
+
 
   it("should deposit correct amount", async () => {
     await instance.enroll({ from: alice });
     await instance.deposit({ from: alice, value: deposit });
     const balance = await instance.getBalance.call({ from: alice });
+
 
     assert.equal(
       deposit.toString(),
